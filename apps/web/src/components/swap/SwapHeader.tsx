@@ -47,6 +47,7 @@ export default function SwapHeader() {
   return (
     <StyledSwapHeader>
       <HeaderButtonContainer>
+        {/*}
         <StyledTextButton
           as="h1"
           role="button"
@@ -62,16 +63,20 @@ export default function SwapHeader() {
         >
           <Trans>Swap</Trans>
         </StyledTextButton>
+        
         <SwapBuyFiatButton />
         {limitsEnabled && chainId === ChainId.MAINNET && (
           <StyledTextButton $isActive={currentTab === SwapTab.Limit} onClick={() => setCurrentTab(SwapTab.Limit)}>
             <Trans>Limit</Trans>
           </StyledTextButton>
         )}
+        */}
       </HeaderButtonContainer>
+      {/*
       <RowFixed>
         <SettingsTab autoSlippage={autoSlippage} chainId={chainId} trade={trade.trade} />
       </RowFixed>
+      */}
     </StyledSwapHeader>
   )
 }

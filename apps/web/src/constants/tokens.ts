@@ -8,12 +8,22 @@ export const NATIVE_CHAIN_ID = 'NATIVE'
 // https://docs.openzeppelin.com/contracts/3.x/erc20
 export const DEFAULT_ERC20_DECIMALS = 18
 
+export const NO_CHAIN_ID = -1;
+
+export const NGN = new Token(
+  NO_CHAIN_ID, // Using the special constant here
+  '0x0000000000000000000000000000000000000000', // A dummy address
+  18, // Token's decimal
+  'NGN', // Symbol of your new token
+  'Naira' // Name of your new token
+)
+
 export const USDC_MAINNET = new Token(
   ChainId.MAINNET,
   '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
   6,
   'USDC',
-  'USD//C'
+  'USDC'
 )
 const USDC_GOERLI = new Token(ChainId.GOERLI, '0x07865c6e87b9f70255377e024ace6630c1eaa37f', 6, 'USDC', 'USD//C')
 const USDC_SEPOLIA = new Token(ChainId.SEPOLIA, '0x6f14C02Fc1F78322cFd7d707aB90f18baD3B54f5', 6, 'USDC', 'USD//C')

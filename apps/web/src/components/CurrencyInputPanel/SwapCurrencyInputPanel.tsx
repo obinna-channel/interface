@@ -368,7 +368,7 @@ const SwapCurrencyInputPanel = forwardRef<HTMLInputElement, SwapCurrencyInputPan
                             ? currency.symbol.slice(0, 4) +
                               '...' +
                               currency.symbol.slice(currency.symbol.length - 5, currency.symbol.length)
-                            : currency?.symbol) || <Trans>Select token</Trans>}
+                            : currency?.symbol) || <Trans>Select currency</Trans>}
                         </StyledTokenName>
                       )}
                     </RowFixed>

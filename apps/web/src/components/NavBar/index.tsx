@@ -2,6 +2,7 @@ import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 import { useAccountDrawer } from 'components/AccountDrawer/MiniPortfolio/hooks'
 import { UniIcon } from 'components/Logo/UniIcon'
+import { ReactComponent as NewIcon } from 'assets/svg/channel_icon.svg';
 import Web3Status from 'components/Web3Status'
 import { useInfoExplorePageEnabled } from 'featureFlags/flags/infoExplore'
 import { useNewLandingPage } from 'featureFlags/flags/landingPageV2'
@@ -26,6 +27,7 @@ import { ChainSelector } from './ChainSelector'
 import { MenuDropdown } from './MenuDropdown'
 import { SearchBar } from './SearchBar'
 import * as styles from './style.css'
+import { themeVars } from 'nft/css/sprinkles.css';
 
 const Nav = styled.nav`
   padding: ${({ theme }) => `${theme.navVerticalPad}px 12px`};
@@ -56,6 +58,8 @@ const MenuItem = ({ href, dataTestId, id, isActive, children }: MenuItemProps) =
   )
 }
 
+const showChainSelector = false;
+
 export const PageTabs = () => {
   const { pathname } = useLocation()
   const { chainId: connectedChainId } = useWeb3React()
@@ -72,6 +76,7 @@ export const PageTabs = () => {
       <MenuItem href="/swap" isActive={pathname.startsWith('/swap')}>
         <Trans>Swap</Trans>
       </MenuItem>
+      {/*
       {infoExplorePageEnabled ? (
         <MenuItem href={`/explore/tokens/${chainName.toLowerCase()}`} isActive={pathname.startsWith('/explore')}>
           <Trans>Explore</Trans>
@@ -93,7 +98,7 @@ export const PageTabs = () => {
       </Box>
       <Box marginY="4">
         <MenuDropdown />
-      </Box>
+      </Box> */}
     </>
   )
 }
@@ -124,6 +129,17 @@ const Navbar = ({ blur }: { blur: boolean }) => {
       <Nav>
         <Box display="flex" height="full" flexWrap="nowrap">
           <Box className={styles.leftSideContainer}>
+          <Box className={styles.logoContainer}>
+              <NewIcon
+                width="48"
+                height="48"
+                style={{ fill: "#1F4E79" }}
+                data-testid="new-icon"
+                className={styles.logo}
+                onClick={handleUniIconClick}
+              />
+            </Box>
+            {/*}
             <Box className={styles.logoContainer}>
               <UniIcon
                 width="48"
@@ -133,36 +149,41 @@ const Navbar = ({ blur }: { blur: boolean }) => {
                 onClick={handleUniIconClick}
               />
             </Box>
+            */}
             {!isNftPage && (
-              <Box display={{ sm: 'flex', lg: 'none' }}>
-                <ChainSelector leftAlign={true} />
-              </Box>
+               showChainSelector && (
+                <Box display={{ sm: 'flex', lg: 'none' }}>
+                  <ChainSelector leftAlign={true} />
+                </Box>
+              )
             )}
             <Row display={{ sm: 'none', lg: 'flex' }}>
               <PageTabs />
             </Row>
           </Box>
-          <Box
+          {/*<Box COMMENTING OUT NAVBAR
             className={styles.searchContainer}
             {...(isNavSearchInputVisible && {
               display: 'flex',
             })}
           >
             <SearchBar />
-          </Box>
+          </Box>*/}
           <Box className={styles.rightSideContainer}>
             <Row gap="12">
-              <Box position="relative" display={isNavSearchInputVisible ? 'none' : { sm: 'flex' }}>
+              {/*<Box position="relative" display={isNavSearchInputVisible ? 'none' : { sm: 'flex' }}> COMMENTING OUT
                 <SearchBar />
-              </Box>
+        </Box>*/ }
               {isNftPage && sellPageState !== ProfilePageStateType.LISTING && <Bag />}
               {!isNftPage && (
-                <Box display={{ sm: 'none', lg: 'flex' }}>
-                  <ChainSelector />
-                </Box>
+                showChainSelector && (
+                  <Box display={{ sm: 'none', lg: 'flex' }}>
+                    <ChainSelector />
+                  </Box>
+                )
               )}
               {isLandingPage && isNewLandingPageEnabled && <GetTheAppButton />}
-              <Web3Status />
+              {/* <Web3Status /> */}
             </Row>
           </Box>
         </Box>

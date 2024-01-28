@@ -88,7 +88,7 @@ const ContentContainer = styled.div<{ isDarkMode: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   width: 100%;
   padding: 0 0 40px;
   max-width: min(720px, 90%);
@@ -124,13 +124,14 @@ const TitleText = styled.h1<{ isDarkMode: boolean }>`
   font-weight: 535;
   text-align: center;
   margin: 0 0 24px;
+  style={{ fill: "#5D5FEE" }}
   ${({ isDarkMode }) =>
     isDarkMode
       ? css`
-          background: linear-gradient(20deg, rgba(255, 244, 207, 1) 10%, rgba(255, 87, 218, 1) 100%);
+          background: linear-gradient(20deg, #6FA8DC 20%, #5D5FEE 100%);
         `
       : css`
-          background: linear-gradient(10deg, rgba(255, 79, 184, 1) 0%, rgba(255, 159, 251, 1) 100%);
+          background: linear-gradient(10deg, #6FA8DC 0%, #5D5FEE 90%);
         `};
   background-clip: text;
   -webkit-background-clip: text;
@@ -168,13 +169,13 @@ const LandingButton = styled(BaseButton)`
   border-radius: 24px;
 `
 const ButtonCTA = styled(LandingButton)`
-  background: linear-gradient(93.06deg, #ff00c7 2.66%, #ff9ffb 98.99%);
+  background: linear-gradient(93.06deg, #6FA8DC 10%, #5D5FEE 100%);
   border: none;
   color: ${({ theme }) => theme.white};
   transition: ${({ theme }) => `all ${theme.transition.duration.medium} ${theme.transition.timing.ease}`};
 
   &:hover {
-    box-shadow: 0px 0px 16px 0px #ff00c7;
+    box-shadow: 0px 0px 16px 0px #5D5FEE;
   }
 `
 const ButtonCTAText = styled.p`
@@ -330,6 +331,7 @@ export default function Landing() {
   return (
     <Trace page={InterfacePageName.LANDING_PAGE} shouldLogImpression>
       <PageContainer data-testid="landing-page">
+        {/*}
         <LandingSwapContainer>
           <TraceEvent
             events={[BrowserEvent.onClick]}
@@ -341,24 +343,27 @@ export default function Landing() {
             </Link>
           </TraceEvent>
         </LandingSwapContainer>
+        */}
         <Gradient isDarkMode={isDarkMode} />
+        {/*}
         <GlowContainer>
           <Glow />
         </GlowContainer>
+      */}
         <ContentContainer isDarkMode={isDarkMode}>
           <TitleText isDarkMode={isDarkMode}>
             {shouldDisableNFTRoutes ? (
-              <Trans>Trade crypto with confidence</Trans>
+              <Trans>Liquidity for USD Stablecoins </Trans>
             ) : (
-              <Trans>Trade crypto and NFTs with confidence</Trans>
+              <Trans>Liquidity for USD Stablecoins </Trans>
             )}
           </TitleText>
           <SubTextContainer>
             <SubText>
               {shouldDisableNFTRoutes ? (
-                <Trans>Buy, sell, and explore tokens</Trans>
+                <Trans>Buy and sell USDC at the best rates for your customers</Trans>
               ) : (
-                <Trans>Buy, sell, and explore tokens and NFTs</Trans>
+                <Trans>Buy and sell USDC at the best rates for your customers</Trans>
               )}
             </SubText>
           </SubTextContainer>
@@ -370,11 +375,12 @@ export default function Landing() {
             >
               <ButtonCTA as={Link} to="/swap">
                 <ButtonCTAText>
-                  <Trans>Get started</Trans>
+                  <Trans>Trade USDC / NGN Pairs </Trans>
                 </ButtonCTAText>
               </ButtonCTA>
             </TraceEvent>
           </ActionsContainer>
+          {/*}
           <LearnMoreContainer
             onClick={() => {
               cardsRef?.current?.scrollIntoView({ behavior: 'smooth' })
@@ -382,7 +388,8 @@ export default function Landing() {
           >
             <Trans>Learn more</Trans>
           </LearnMoreContainer>
-
+          */}
+          {/*}
           <DownloadWalletLink
             {...getDownloadAppLinkProps({
               element: InterfaceElementName.UNISWAP_WALLET_LANDING_PAGE_DOWNLOAD_BUTTON,
@@ -393,8 +400,11 @@ export default function Landing() {
               Download the Uniswap app
             </>
           </DownloadWalletLink>
+          */}
         </ContentContainer>
+        {/*
         <AboutContentContainer isDarkMode={isDarkMode}>
+          
           <CardGrid cols={cards.length} ref={cardsRef}>
             {cards.map(({ darkBackgroundImgSrc, lightBackgroundImgSrc, ...card }) => (
               <Card
@@ -404,14 +414,17 @@ export default function Landing() {
               />
             ))}
           </CardGrid>
+            
           <CardGrid cols={MORE_CARDS.length}>
             {MORE_CARDS.map(({ darkIcon, lightIcon, ...card }) => (
               <Card {...card} icon={isDarkMode ? darkIcon : lightIcon} key={card.title} type={CardType.Secondary} />
             ))}
           </CardGrid>
+          
           <ProtocolBanner />
           <AboutFooter />
         </AboutContentContainer>
+        */}
       </PageContainer>
     </Trace>
   )

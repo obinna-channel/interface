@@ -7,7 +7,8 @@ import {
   SharedEventName,
   SwapEventName,
 } from '@uniswap/analytics-events'
-import { Currency, CurrencyAmount, Token } from '@uniswap/sdk-core'
+import { ChainId, Currency, CurrencyAmount, Token } from '@uniswap/sdk-core'
+import { USDC_MAINNET,NGN } from 'constants/tokens'
 import { UNIVERSAL_ROUTER_ADDRESS } from '@uniswap/universal-router-sdk'
 import { useWeb3React } from '@web3-react/core'
 import { sendAnalyticsEvent, Trace, TraceEvent, useTrace } from 'analytics'
@@ -79,6 +80,14 @@ export function SwapForm({ disableTokenInputs = false, onCurrencyChange }: SwapF
   const { swapState, setSwapState, derivedSwapInfo } = useSwapContext()
   const { typedValue, independentField } = swapState
 
+  const hardcodedDAIToken = new Token(
+    ChainId.MAINNET, // Assuming we are working with Ethereum Mainnet
+    '0x6B175474E89094C44Da98b954EedeAC495271d0F', // DAI token contract address on Ethereum Mainnet
+    18, // DAI token decimals
+    'DAI', // Token symbol
+    'Dai Stablecoin' // Token name
+  );
+
   // token warning stuff
   const parsedQs = useParsedQueryString()
   const prefilledCurrencies = useMemo(() => {
@@ -87,13 +96,13 @@ export function SwapForm({ disableTokenInputs = false, onCurrencyChange }: SwapF
   const prefilledInputCurrency = useCurrency(prefilledCurrencies?.inputCurrencyId, chainId)
   const prefilledOutputCurrency = useCurrency(prefilledCurrencies?.outputCurrencyId, chainId)
 
-  const [loadedInputCurrency, setLoadedInputCurrency] = useState(prefilledInputCurrency)
+  const [loadedInputCurrency, setLoadedInputCurrency] = useState(prefilledInputCurrency || NGN)
   const [loadedOutputCurrency, setLoadedOutputCurrency] = useState(prefilledOutputCurrency)
 
   useEffect(() => {
-    setLoadedInputCurrency(prefilledInputCurrency)
+    setLoadedInputCurrency(prefilledInputCurrency || NGN)
     setLoadedOutputCurrency(prefilledOutputCurrency)
-  }, [prefilledInputCurrency, prefilledOutputCurrency])
+  }, [prefilledInputCurrency, prefilledOutputCurrency, NGN])
 
   const [dismissTokenWarning, setDismissTokenWarning] = useState<boolean>(false)
   const [showPriceImpactModal, setShowPriceImpactModal] = useState<boolean>(false)
@@ -529,14 +538,15 @@ export function SwapForm({ disableTokenInputs = false, onCurrencyChange }: SwapF
         />
       )}
       <div style={{ display: 'relative' }}>
-        <SwapSection>
+        
+        <SwapSection style={{ marginBottom: '5px' }}> {/* Add your desired space here */}
           <Trace section={InterfaceSectionName.CURRENCY_INPUT_PANEL}>
             <SwapCurrencyInputPanel
               label={<Trans>You pay</Trans>}
               disabled={disableTokenInputs}
               value={formattedAmounts[Field.INPUT]}
               showMaxButton={showMaxButton}
-              currency={currencies[Field.INPUT] ?? null}
+              currency={currencies[Field.INPUT] ?? NGN}
               onUserInput={handleTypeInput}
               onMax={handleMaxInput}
               fiatValue={showFiatValueInput ? fiatValueInput : undefined}
@@ -549,6 +559,8 @@ export function SwapForm({ disableTokenInputs = false, onCurrencyChange }: SwapF
             />
           </Trace>
         </SwapSection>
+
+        {/*
         <ArrowWrapper clickable={isSupportedChain(chainId)}>
           <TraceEvent
             events={[BrowserEvent.onClick]}
@@ -568,10 +580,12 @@ export function SwapForm({ disableTokenInputs = false, onCurrencyChange }: SwapF
             </ArrowContainer>
           </TraceEvent>
         </ArrowWrapper>
+        */}
       </div>
       <AutoColumn gap="xs">
         <div>
-          <OutputSwapSection>
+          
+          <OutputSwapSection style={{ marginBottom: '5px' }}>
             <Trace section={InterfaceSectionName.CURRENCY_OUTPUT_PANEL}>
               <SwapCurrencyInputPanel
                 value={formattedAmounts[Field.OUTPUT]}

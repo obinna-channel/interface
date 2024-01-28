@@ -2,6 +2,7 @@
 import { t, Trans } from '@lingui/macro'
 import { InterfaceEventName, InterfaceModalName } from '@uniswap/analytics-events'
 import { Currency, CurrencyAmount, Token } from '@uniswap/sdk-core'
+import { USDC_MAINNET,NGN,USDT} from 'constants/tokens'
 import { useWeb3React } from '@web3-react/core'
 import { Trace } from 'analytics'
 import useDebounce from 'hooks/useDebounce'
@@ -31,7 +32,7 @@ import { PaddedColumn, SearchInput, Separator } from './styled'
 
 const ContentWrapper = styled(Column)`
   background-color: ${({ theme }) => theme.surface1};
-  width: 100%;
+  width: 200%;
   overflow: hidden;
   flex: 1 1;
   position: relative;
@@ -198,19 +199,23 @@ export function CurrencySearch({
   )
 
   const finalCurrencyList = useMemo(() => {
+
+    return [USDC_MAINNET, NGN]
+
+    {/*}
     return debouncedQuery || portfolioTokens.length === 0
       ? [
-          new CurrencyListSectionTitle(debouncedQuery ? t`Search Results` : t`Popular tokens`),
+          //new CurrencyListSectionTitle(debouncedQuery ? t`Search Results` : t`Popular tokens`),
           ...sortedCombinedTokens,
           ...filteredInactiveTokens,
         ]
       : [
           new CurrencyListSectionTitle(t`Your tokens`),
           ...portfolioTokens,
-          new CurrencyListSectionTitle(t`Popular tokens`),
+          //new CurrencyListSectionTitle(t`Popular tokens`),
           ...sortedTokensWithoutPortfolio,
           ...filteredInactiveTokens,
-        ]
+        ] */}
   }, [debouncedQuery, filteredInactiveTokens, portfolioTokens, sortedCombinedTokens, sortedTokensWithoutPortfolio])
 
   // Timeout token loader after 3 seconds to avoid hanging in a loading state.
@@ -231,10 +236,11 @@ export function CurrencySearch({
         <PaddedColumn gap="16px">
           <RowBetween>
             <Text fontWeight={535} fontSize={16}>
-              <Trans>Select a token</Trans>
+              <Trans>Select a Currency</Trans>
             </Text>
             <CloseIcon onClick={onDismiss} />
           </RowBetween>
+          {/*}
           <Row>
             <SearchInput
               type="text"
@@ -248,6 +254,8 @@ export function CurrencySearch({
               onKeyDown={handleEnter}
             />
           </Row>
+          */} 
+          {/*}
           {showCommonBases && (
             <CommonBases
               chainId={chainId}
@@ -257,6 +265,7 @@ export function CurrencySearch({
               isAddressSearch={isAddressSearch}
             />
           )}
+          */}
         </PaddedColumn>
         <Separator />
         {searchToken ? (
@@ -309,6 +318,7 @@ export function CurrencySearch({
             </ThemedText.DeprecatedMain>
           </Column>
         )}
+        
       </Trace>
     </ContentWrapper>
   )
